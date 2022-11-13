@@ -34,6 +34,7 @@ fn replace_file_indention_code(name: &String) -> Result<(), Error> {
     Ok(())
 }
 
+// 指定したフォルダ以下のファイルの改行コードを変更する
 fn replace_files<P: AsRef<Path>>(path: P, re: &Regex) -> Result<(), Error> {
     if let Ok(dirs) = fs::read_dir(path){
         for entry in dirs.into_iter() {
