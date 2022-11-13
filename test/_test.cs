@@ -1,2 +1,2 @@
 using system;
-using system.collection;
+using system.collection; // これはサンプルです
