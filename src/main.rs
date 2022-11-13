@@ -36,19 +36,19 @@ fn replace_file_indention_code(name: &String) -> Result<(), Error> {
 
 // 指定したフォルダ以下のファイルの改行コードを変更する
 fn replace_files<P: AsRef<Path>>(path: P, re: &Regex) -> Result<(), Error> {
-    if let Ok(dirs) = fs::read_dir(path){
-        for entry in dirs.into_iter() {
-            if let Ok(entry) = entry{
-                let path = entry.path();
-                let path_str = path.to_string_lossy().into_owned();
+    let dirs = fs::read_dir(path)?;
 
-                if entry.file_type()?.is_dir(){
-                    replace_files(path, re)?;
-                }
-                else if re.is_match(&path_str) && entry.file_type()?.is_file()  {
-                    replace_file_indention_code(&path_str)?;
-                    println!("{} : {}", format!("fix").yellow(), path_str);
-                }
+    for entry in dirs.into_iter() {
+        if let Ok(entry) = entry{
+            let path = entry.path();
+            let path_str = path.to_string_lossy().into_owned();
+
+            if entry.file_type()?.is_dir(){
+                replace_files(path, re)?;
+            }
+            else if re.is_match(&path_str) && entry.file_type()?.is_file()  {
+                replace_file_indention_code(&path_str)?;
+                println!("{} : {}", format!("fix").yellow(), path_str);
             }
         }
     }
